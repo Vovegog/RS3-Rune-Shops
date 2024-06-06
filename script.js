@@ -14,6 +14,11 @@ function Clock() {
     var t = setTimeout(function() {
         Clock()
     }, 500);
+
+    // If the time is 00:00:00, refresh the page to reset the checkboxes
+    if (h == 0 && m == 0 && s == 1) {
+        location.reload();
+    }
 }
 
 function checkTime(i) {
@@ -25,7 +30,7 @@ function checkTime(i) {
 
 Clock();
 
-// Get all the checkboxes, and add an event listener to each one.
+// Get all the checkboxes
 var checkboxes = document.getElementsByClassName("checkbox");
 
 // Need to add a unique ID to each row in the table
@@ -34,23 +39,64 @@ for (var i = 0; i < rows.length; i++) {
     rows[i].id = "row" + i;
 }
 
+
+function styleOnLoad () {
+    // When loading the webpage, or refreshing, check to see if there are any checked boxes. Style them accordingly
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (document.cookie.indexOf(checkboxes[i].value) != -1) {
+            checkboxes[i].checked = true;
+            var row = document.getElementById(checkboxes[i].parentNode.parentNode.id);
+            row.style.textDecoration = "line-through";
+            row.style.backgroundColor = "green";
+        }
+    }
+}
+styleOnLoad();
+
 for (var i = 0; i < checkboxes.length; i++) {
     checkboxes[i].addEventListener("click", function() {
-        // If the box gets checked, console.log it out, and add it as a cookie
+
+        // If the box gets checked, console.log it out, add it as a cookie and style the row
         if (this.checked) {
-            console.log("Checked: " + this.name);
-            document.cookie = this.name + "=true; expires=Fri, 31 Dec 9999 23:59:59 UTC";
-        } else { // In case of unchecking, delete the cookie
-            console.log("Unchecked: " + this.name);
-            document.cookie = this.name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-        }      
+            // Get today's date and set the expiry date to the following day
+            var today = new Date();
+            var expiry = new Date(today);
+            expiry.setUTCDate(today.getUTCDate() + 1);
+            expiry.setUTCHours(2,0,0,0);
+            expiry = expiry.toUTCString();
+
+            // console.log("Checked: " + this.value + " in row " + this.parentNode.parentNode.id + " with expiry date: " + expiry); //debugging
+            var row = document.getElementById(this.parentNode.parentNode.id);
+            document.cookie = this.value + `=true; expires=${expiry}`;
+            row.style.textDecoration = "line-through";
+            row.style.backgroundColor = "green";
+
+        } else { // In case of unchecking, delete the cookie and remove the styling
+            console.log("Unchecked: " + this.value + " in row " + this.parentNode.parentNode.id);
+            var row = document.getElementById(this.parentNode.parentNode.id);
+            document.cookie = this.value + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+            row.style.textDecoration = "none";
+            row.style.backgroundColor = "#2b2b2b";
+        }
     });
 }
 
-// Add a button to check what cookies are currently stored, for debugging.
-var cookieButton = document.getElementById("cookieButton");
-cookieButton.addEventListener("click", function() {
-    console.log(document.cookie);
-    document.getElementById("cookies").innerHTML = document.cookie;
-});
 
+// Add a button to check what cookies are currently stored, for debugging.
+
+// var cookieButton = document.getElementById("cookieButton");
+// cookieButton.addEventListener("click", function() {
+//     console.log(document.cookie.valueOf());
+//     document.getElementById("cookies").innerHTML = document.cookie;
+// });
+
+
+// In case of fuckery, code to delete all cookies. Thanks, StackOverflow
+
+// function deleteAllCookies() {
+//     var c = document.cookie.split("; ");
+//     for (i in c) 
+//     document.cookie =/^[^=]+/.exec(c[i])[0]+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT"; 
+// }
+
+// deleteAllCookies();
