@@ -11,7 +11,7 @@ function Clock() {
     m = checkTime(m);
     s = checkTime(s);
     document.getElementById('Clock').innerHTML = h + ":" + m + ":" + s;
-    var t = setTimeout(function() {
+    var t = setTimeout(function () {
         Clock()
     }, 500);
 
@@ -40,7 +40,7 @@ for (var i = 0; i < rows.length; i++) {
 }
 
 
-function styleOnLoad () {
+function styleOnLoad() {
     // When loading the webpage, or refreshing, check to see if there are any checked boxes. Style them accordingly
     for (var i = 0; i < checkboxes.length; i++) {
         if (document.cookie.indexOf(checkboxes[i].value) != -1) {
@@ -54,7 +54,7 @@ function styleOnLoad () {
 styleOnLoad();
 
 for (var i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].addEventListener("click", function() {
+    checkboxes[i].addEventListener("click", function () {
 
         // If the box gets checked, console.log it out, add it as a cookie and style the row
         if (this.checked) {
@@ -62,7 +62,7 @@ for (var i = 0; i < checkboxes.length; i++) {
             var today = new Date();
             var expiry = new Date(today);
             expiry.setUTCDate(today.getUTCDate() + 1);
-            expiry.setUTCHours(2,0,0,0);
+            expiry.setUTCHours(2, 0, 0, 0);
             expiry = expiry.toUTCString();
 
             // console.log("Checked: " + this.value + " in row " + this.parentNode.parentNode.id + " with expiry date: " + expiry); //debugging
@@ -95,8 +95,8 @@ for (var i = 0; i < checkboxes.length; i++) {
 
 // function deleteAllCookies() {
 //     var c = document.cookie.split("; ");
-//     for (i in c) 
-//     document.cookie =/^[^=]+/.exec(c[i])[0]+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT"; 
+//     for (i in c)
+//     document.cookie =/^[^=]+/.exec(c[i])[0]+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
 // }
 
 // deleteAllCookies();

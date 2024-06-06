@@ -5,6 +5,8 @@ body {
     background-color: #333;
     color: #d6d6d6;
 }
+
+/* Main table styling */
 table {
     border-collapse: collapse;
     width: 100%;
@@ -35,6 +37,7 @@ td {
     color:rgb(207, 207, 207);
 }
 
+/* Cookie debug button styling */
 button {
     background-color: #4CAF50;
     border: none;
@@ -54,6 +57,7 @@ button:hover {
     transition: 0.4s;
 }
 
+/* Checkbox styling */
 .checkbox {
     width: 20px;
     height: 20px;
@@ -61,10 +65,25 @@ button:hover {
     display: block;
 }
 
+/* Clock styling */
 #Clock {
     width: 100px;
     height: 100px;
     margin: auto;
+    display: flex;
+    font-size: 4em;
+    justify-content: center;
+}
+
+/* Table-div styling */
+#table {
+    width: 100%;
+    margin: auto;
+    padding: auto;
     display: block;
-    font-size: 3em;
+    justify-content: center;
+    min-width: 500px;
+    max-width: 1200px;
+    overflow-x: auto;
+    border:#292929 5px solid;
 }
