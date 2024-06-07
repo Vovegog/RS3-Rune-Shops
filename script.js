@@ -1,7 +1,3 @@
-// JS code should create a cookie holding which checkboxes have been marked.
-// These cookies should expire at 00:00 UTC on the following day, as that is when reset happens.
-// Additionally, marked checkboxes and their corresponding table-row should have a dash through them, and be highlighted.
-
 function setUTC() {
     const date = new Date();
     var expiry = new Date(date);
@@ -14,7 +10,7 @@ function setUTC() {
 function checkTime(i) {
     if (i < 10) {
         i = "0" + i
-    }; // add zero in front of numbers < 10
+    };
     return i;
 }
 
@@ -31,7 +27,7 @@ function Clock() {
         Clock()
     }, 500);
 
-    // If the time is 00:00:00, refresh the page to reset the checkboxes
+    // If the time ticks past midnight, clear storage and reload the page without cache
     if (h == 0o0 && m == 0o0 && s == 0o1) {
         localStorage.clear();
         location.reload(true);
@@ -51,7 +47,6 @@ for (var i = 0; i < rows.length; i++) {
 
 
 function styleOnLoad() {
-    // When loading the webpage, or refreshing, check to see if there are any checked boxes. Style them accordingly
     for (var i = 0; i < checkboxes.length; i++) {
         if (localStorage.getItem(checkboxes[i].value) == "true") {
             checkboxes[i].checked = true;
