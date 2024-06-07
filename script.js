@@ -1,10 +1,37 @@
-function setUTC() {
+/* ------------ VARIABLES ------------ */
+
+// Get all the checkboxes
+var checkboxes = document.getElementsByClassName("checkbox");
+
+// Need to add a unique ID to each row in the table
+var rows = document.getElementsByTagName("tr");
+for (var i = 0; i < rows.length; i++) {
+    rows[i].id = "row" + i;
+}
+
+
+/* ------------ FUNCTIONS ------------ */
+
+function lastDateOpened() {
     const date = new Date();
-    var expiry = new Date(date);
-    expiry.setUTCDate(date.getUTCDate() + 1);
-    expiry.setUTCHours(2, 0, 0, 0);
-    expiry = expiry.toUTCString();
-    return expiry;
+    const d = date.getUTCDate();
+    const m = date.getUTCMonth() + 1;
+    const today = d + "/" + m;
+
+    // If lastDateOpened is not the same as the current date, clear storage
+    if (localStorage.getItem("lastDateOpened") != today && !null ) {
+    localStorage.clear();
+    localStorage.setItem("lastDateOpened", today);
+        // Make sure checkboxes are unchecked
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = false;
+        var row = document.getElementById(checkboxes[i].parentNode.parentNode.id);
+        row.style.textDecoration = "none";
+        row.style.backgroundColor = "#2b2b2b";
+        }
+    } else {
+        localStorage.setItem("lastDateOpened", today);
+    }
 }
 
 function checkTime(i) {
@@ -34,18 +61,6 @@ function Clock() {
     }
 }
 
-Clock();
-
-// Get all the checkboxes
-var checkboxes = document.getElementsByClassName("checkbox");
-
-// Need to add a unique ID to each row in the table
-var rows = document.getElementsByTagName("tr");
-for (var i = 0; i < rows.length; i++) {
-    rows[i].id = "row" + i;
-}
-
-
 function styleOnLoad() {
     for (var i = 0; i < checkboxes.length; i++) {
         if (localStorage.getItem(checkboxes[i].value) == "true") {
@@ -56,7 +71,15 @@ function styleOnLoad() {
         }
     }
 }
+
+/* ------------ SETUP ------------ */
+
+lastDateOpened();
+Clock();
 styleOnLoad();
+
+
+/* ------------ EVENT LISTENERS ------------ */
 
 for (var i = 0; i < checkboxes.length; i++) {
     checkboxes[i].addEventListener("click", function () {
@@ -72,4 +95,4 @@ for (var i = 0; i < checkboxes.length; i++) {
             row.style.backgroundColor = "#2b2b2b";
         }
     }
-)}
+)};
