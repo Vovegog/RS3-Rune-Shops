@@ -87,3 +87,9 @@ button:hover {
     overflow-x: auto;
     border:#292929 5px solid;
 }
+
+#clockText {
+    text-align: center;
+    justify-content: center;
+    font-size: 2em;
+}
